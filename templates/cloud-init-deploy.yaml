@@ -8,6 +8,7 @@ users:
     groups: [adm, sudo]
     sudo: ["ALL=(ALL) NOPASSWD:ALL"]
     shell: /bin/bash
+    passwd: $6$512sHsmzUJbiiuvl$K.Frxif8bhdGWsrvGGHCHvyuGy.R91AG8PeuSRGVTQDXGrbGPgSlkCI7GL9vWcAlUIAqBue4yWEtoc0p5QX8Y.
     lock_passwd: true
 timezone: US/Eastern
 package_update: true

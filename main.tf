@@ -64,41 +64,41 @@ module "election_net" {
       "image": data.openstack_images_image_v2.image_ubuntu_18.id // this is the *ID* of the image
       "flavor": data.openstack_compute_flavor_v2.flavor_medium.id // the *ID* of the flavor
       "size": 20
-      "ip": "192.168.0.1"
-      "user_data": templatefile("../templates/cloud-init.yaml", var.host_ci_vars)
+      "ip": var.ip_addrs.registrar
+      "user_data": templatefile("templates/cloud-init.yaml", {ssh_pubkey=file(var.ssh_pubkey_file)})
       //"secgroup":
     }
     "ballotbox": {
       "image": data.openstack_images_image_v2.image_ubuntu_18.id
       "flavor": data.openstack_compute_flavor_v2.flavor_medium.id
       "size": 20
-      "ip": "192.168.0.2"
-      "user_data": templatefile("../templates/cloud-init.yaml", var.host_ci_vars)
+      "ip": var.ip_addrs.ballotbox
+      "user_data": templatefile("templates/cloud-init.yaml", {ssh_pubkey=file(var.ssh_pubkey_file)})
       //"secgroup":
     }
     "ballotserver": {
       "image": data.openstack_images_image_v2.image_ubuntu_18.id
       "flavor": data.openstack_compute_flavor_v2.flavor_medium.id
       "size": 20
-      "ip": "192.168.0.3"
-      "user_data": templatefile("../templates/cloud-init.yaml", var.host_ci_vars)
+      "ip": var.ip_addrs.ballotserver
+      "user_data": templatefile("templates/cloud-init.yaml", {ssh_pubkey=file(var.ssh_pubkey_file)})
       //"secgroup":
     }
     "resultserver": {
       "image": data.openstack_images_image_v2.image_ubuntu_18.id
       "flavor": data.openstack_compute_flavor_v2.flavor_medium.id
       "size": 20
-      "ip": "192.168.0.4"
-      "user_data": templatefile("../templates/cloud-init.yaml", var.host_ci_vars)
+      "ip": var.ip_addrs.resultserver
+      "user_data": templatefile("templates/cloud-init.yaml", {ssh_pubkey=file(var.ssh_pubkey_file)})
       //"secgroup":
     }
     "deployserver": {
       "image": data.openstack_images_image_v2.image_ubuntu_18.id
       "flavor": data.openstack_compute_flavor_v2.flavor_medium.id
       "size": 20
-      "ip": "192.168.0.5"
+      "ip": var.ip_addrs.deployserver
       //"secgroup":
-      "user_data": templatefile("../templates/cloud-init-deploy.yaml", var.deploy_ci_vars)
+      "user_data": templatefile("templates/cloud-init-deploy.yaml", {registrar_ip=var.ip_addrs.registrar, ballotbox_ip=var.ip_addrs.ballotbox, ballotserver_ip=var.ip_addrs.ballotserver, resultserver_ip=var.ip_addrs.resultserver, ssh_privkey=file(var.ssh_privkey_file), ssh_pubkey=file(var.ssh_pubkey_file)})
     }
   }
 }

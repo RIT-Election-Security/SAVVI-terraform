@@ -3,3 +3,6 @@
 *.tfstate
 *.tfstate.backup
 secrets.auto.tfvars
+
+id_savi
+id_savi.pub
