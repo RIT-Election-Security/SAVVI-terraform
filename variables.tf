@@ -36,3 +36,15 @@ variable "auth_url" {
     description = "Openstack authentication url"
     type = string
 }
+
+variable "host_ci_vars" {
+    description = "Variables to pass to cloudinit on the non-deploy servers"
+    type = map
+    default = {"ssh_pubkey"=""}
+}
+
+variable "deploy_ci_vars" {
+    description = "Variables to pass to cloudinit on the deploy server"
+    type = map
+    default = {"ssh_pubkey"="", "ssh_privkey"="", "registrar_ip"="", "ballotbox_ip"="", "ballotserver_ip"="", "resultserver_ip"=""}
+}

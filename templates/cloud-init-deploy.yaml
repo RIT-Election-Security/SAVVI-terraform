@@ -1,0 +1,37 @@
+#cloud-config
+# https://cloudinit.readthedocs.io/en/latest/topics/examples.html
+users:
+  - name: savi
+    ssh-authorized-keys:
+      - ${ssh_pubkey}
+    gecos: deployment and admin user
+    groups: [adm, sudo]
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+    shell: /bin/bash
+    lock_passwd: true
+timezone: US/Eastern
+package_update: true
+package_upgrade: true
+write_files:
+  - content: |
+      ${ssh_pubkey}
+    path: /home/savi/.ssh/authorized_keys
+    owner: savi:savi
+    permissions: '0600'
+  - content: |
+      ${ssh_privkey}
+    path: /home/savi/.ssh/id_rsa
+    owner: savi:savi
+    permissions: '0600'
+runcmd:
+  - "git clone https://github.com/RIT-Election-Security/SAVI-deployment"
+  # and then we do a bunch of sed replacements to get everything right
+  - "sed -i -e 's/<registrar-ip>/${registrar_ip}/' /home/savi/SAVI-deployment/inventory.yaml"
+  - "sed -i -e 's/<ballotbox-ip>/${ballotbox_ip}/' /home/savi/SAVI-deployment/inventory.yaml"
+  - "sed -i -e 's/<ballotserver-ip>/${ballotserver_ip}/' /home/savi/SAVI-deployment/inventory.yaml"
+  - "sed -i -e 's/<resultserver-ip>/${resultserver_ip}/' /home/savi/SAVI-deployment/inventory.yaml"
+  - "sed -i -e 's/<admin-user>/savi/' /home/savi/SAVI-deployment/group_vars/all.yaml"
+  - "sed -i -e 's/<registrar-address>/${registrar_ip}/' /home/savi/SAVI-deployment/group_vars/all.yaml"
+  - "sed -i -e 's/<ballot-box-address>/${ballotbox_ip}/' /home/savi/SAVI-deployment/group_vars/all.yaml"
+  - "sed -i -e 's/<ballot-server-address>/${ballotserver_ip}/' /home/savi/SAVI-deployment/group_vars/all.yaml"
+  - "sed -i -e 's/<result-server-address>/${resultserver_ip}/' /home/savi/SAVI-deployment/group_vars/all.yaml"

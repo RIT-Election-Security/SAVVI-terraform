@@ -3,8 +3,8 @@
 users:
   - name: savi
     ssh-authorized-keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINbIPcBCcjTsH1PcqxG9dGCXP/d8xlctDdjzw6ed/uIu #TODO: replace key
-    gecos: whiteteam user
+      - ${ssh_pubkey}
+    gecos: deployment and admin user
     groups: [adm, sudo]
     sudo: ["ALL=(ALL) NOPASSWD:ALL"]
     shell: /bin/bash
@@ -12,3 +12,9 @@ users:
 timezone: US/Eastern
 package_update: true
 package_upgrade: true
+write_files:
+  - content: |
+      ${ssh_pubkey}
+    path: /home/savi/.ssh/authorized_keys
+    owner: savi:savi
+    permissions: '0600'

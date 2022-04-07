@@ -65,6 +65,7 @@ module "election_net" {
       "flavor": data.openstack_compute_flavor_v2.flavor_medium.id // the *ID* of the flavor
       "size": 20
       "ip": "192.168.0.1"
+      "user_data": templatefile("../templates/cloud-init.yaml", var.host_ci_vars)
       //"secgroup":
     }
     "ballotbox": {
@@ -72,6 +73,7 @@ module "election_net" {
       "flavor": data.openstack_compute_flavor_v2.flavor_medium.id
       "size": 20
       "ip": "192.168.0.2"
+      "user_data": templatefile("../templates/cloud-init.yaml", var.host_ci_vars)
       //"secgroup":
     }
     "ballotserver": {
@@ -79,6 +81,7 @@ module "election_net" {
       "flavor": data.openstack_compute_flavor_v2.flavor_medium.id
       "size": 20
       "ip": "192.168.0.3"
+      "user_data": templatefile("../templates/cloud-init.yaml", var.host_ci_vars)
       //"secgroup":
     }
     "resultserver": {
@@ -86,6 +89,7 @@ module "election_net" {
       "flavor": data.openstack_compute_flavor_v2.flavor_medium.id
       "size": 20
       "ip": "192.168.0.4"
+      "user_data": templatefile("../templates/cloud-init.yaml", var.host_ci_vars)
       //"secgroup":
     }
     "deployserver": {
@@ -94,6 +98,7 @@ module "election_net" {
       "size": 20
       "ip": "192.168.0.5"
       //"secgroup":
+      "user_data": templatefile("../templates/cloud-init-deploy.yaml", var.deploy_ci_vars)
     }
   }
 }
