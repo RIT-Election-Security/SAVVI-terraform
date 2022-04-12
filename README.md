@@ -5,7 +5,8 @@
 3. voter manifest or something [WIP]
 4. `terraform plan`
 5. `terraform apply`
-6. SSH into the deploy box, run ansible
+6. SSH into the deploy box
+8. run ansible
 
 examples of certain files are found in `examples/`
 

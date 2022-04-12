@@ -16,3 +16,7 @@ package_update: true
 #package_upgrade: true #TODO: uncomment for actual use
 packages:
   - git
+  - python-pip
+#TODO: use python3 to deal with warnings; probably needs a newer python
+runcmd:
+  - pip install ansible

@@ -11,4 +11,6 @@ users:
     lock_passwd: true
 timezone: US/Eastern
 package_update: true
-package_upgrade: true
+#package_upgrade: true #TODO: re-enable this in prod use
+runcmd:
+  - python3 -m pip install --upgrade pip
