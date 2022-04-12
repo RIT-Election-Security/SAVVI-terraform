@@ -12,9 +12,3 @@ users:
 timezone: US/Eastern
 package_update: true
 package_upgrade: true
-write_files:
-  - content: |
-      ${ssh_pubkey}
-    path: /home/savi/.ssh/authorized_keys
-    owner: savi:savi
-    permissions: '0600'

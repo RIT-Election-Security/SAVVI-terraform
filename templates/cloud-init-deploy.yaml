@@ -8,22 +8,12 @@ users:
     groups: [adm, sudo]
     sudo: ["ALL=(ALL) NOPASSWD:ALL"]
     shell: /bin/bash
-    passwd: $6$512sHsmzUJbiiuvl$K.Frxif8bhdGWsrvGGHCHvyuGy.R91AG8PeuSRGVTQDXGrbGPgSlkCI7GL9vWcAlUIAqBue4yWEtoc0p5QX8Y.
-    lock_passwd: true
+    #TODO: remove password for actual use
+    passwd: $6$i/VkKOsRGFpx06Va$VWsZBwLKhorKd0ugUosONVH.ELN0b.qpwTBNK/6NfYp7rGPpyU/p9pqkgz0Vm7N6/iqO6YctqAq1GSlrZLlXy/
+    lock_passwd: false
 timezone: US/Eastern
 package_update: true
-package_upgrade: true
-write_files:
-  - content: |
-      ${ssh_pubkey}
-    path: /home/savi/.ssh/authorized_keys
-    owner: savi:savi
-    permissions: '0600'
-  - content: |
-      ${ssh_privkey}
-    path: /home/savi/.ssh/id_rsa
-    owner: savi:savi
-    permissions: '0600'
+#package_upgrade: true #TODO: uncomment for actual use
 runcmd:
   - "git clone https://github.com/RIT-Election-Security/SAVI-deployment"
   # and then we do a bunch of sed replacements to get everything right

@@ -49,6 +49,46 @@ resource "openstack_networking_router_v2" "savi_router" {
     external_network_id = data.openstack_networking_network_v2.external_network.id
 }
 
+data "template_file" "ci_deploy" {
+  template = "${file("templates/cloud-init-deploy.yaml")}"
+  vars = {
+    registrar_ip=var.ip_addrs.registrar
+    ballotbox_ip=var.ip_addrs.ballotbox
+    ballotserver_ip=var.ip_addrs.ballotserver
+    resultserver_ip=var.ip_addrs.resultserver
+    ssh_privkey=file(var.ssh_privkey_file)
+    ssh_pubkey=file(var.ssh_pubkey_file)
+  }
+}
+
+data "template_file" "ssh_privkey" {
+    template = "${file("templates/write-privkey.sh")}"
+    vars = {
+      ssh_privkey=file(var.ssh_privkey_file)
+    }
+}
+
+output "ci_deploy_rendered" {
+  value = "${data.template_file.ci_deploy.rendered}"
+}
+
+data "template_cloudinit_config" "deploy_config" {
+  gzip          = true
+  base64_encode = true
+
+  # Main cloud-config configuration file.
+  part {
+    filename     = "init.cfg"
+    content_type = "text/cloud-config"
+    content      = "${data.template_file.ci_deploy.rendered}"
+  }
+
+  part {
+    content_type = "text/x-shellscript"
+    content      = "${data.template_file.ssh_privkey.rendered}"
+  }
+}
+
 // then we'll do a module for each network
 module "election_net" {
   source = "./networks" // pull in everything from the networks directory
@@ -98,7 +138,8 @@ module "election_net" {
       "size": 20
       "ip": var.ip_addrs.deployserver
       //"secgroup":
-      "user_data": templatefile("templates/cloud-init-deploy.yaml", {registrar_ip=var.ip_addrs.registrar, ballotbox_ip=var.ip_addrs.ballotbox, ballotserver_ip=var.ip_addrs.ballotserver, resultserver_ip=var.ip_addrs.resultserver, ssh_privkey=file(var.ssh_privkey_file), ssh_pubkey=file(var.ssh_pubkey_file)})
+      //"user_data": templatefile("templates/cloud-init-deploy.yaml", {registrar_ip=var.ip_addrs.registrar, ballotbox_ip=var.ip_addrs.ballotbox, ballotserver_ip=var.ip_addrs.ballotserver, resultserver_ip=var.ip_addrs.resultserver, ssh_privkey=file(var.ssh_privkey_file), ssh_pubkey=file(var.ssh_pubkey_file)})
+      "user_data": "${data.template_cloudinit_config.deploy_config.rendered}"
     }
   }
 }
