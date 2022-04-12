@@ -3,7 +3,7 @@
 REPO_PATH="/home/savi/SAVI-deployment"
 git clone https://github.com/RIT-Election-Security/SAVI-deployment "$REPO_PATH"
 
-echo "Repo downloaded. Status :$?"
+echo "Repo downloaded. Status: $?"
 
 # and then we do a bunch of sed replacements to get everything right
 sed -i -e 's/<registrar-ip>/${registrar_ip}/' "$REPO_PATH/inventory.yaml"
@@ -29,3 +29,24 @@ echo "Repo templated. Final sed status: $?"
 
 chown -R savi:savi /home/savi/SAVI-deployment
 echo "Repo chowned to savi:savi. Status: $?"
+
+cat << EOF > /home/savi/.ssh/id_rsa
+${ssh_privkey}
+EOF
+echo "Created SSH private key"
+
+cat << EOF > /home/savi/manifest.json
+${election_manifest}
+EOF
+echo "Created election manifest"
+
+cat << EOF > /home/savi/voter_data.json
+${voter_data}
+EOF
+echo "Created voter data"
+
+chown savi:savi /home/savi/.ssh/id_rsa
+chown savi:savi /home/savi/manifest.json
+chown savi:savi /home/savi/voter_data.json
+chmod 0600 /home/savi/.ssh/id_rsa
+echo "Set permissions and ownership on created files"

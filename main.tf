@@ -56,15 +56,6 @@ data "template_file" "ci_deploy" {
   }
 }
 
-data "template_file" "reconstitute_files" {
-    template = "${file("templates/reconstitute-files.sh")}"
-    vars = {
-      ssh_privkey=file(var.ssh_privkey_file)
-      election_manifest=file(var.election_manifest_file)
-      voter_data=file(var.voter_data_file)
-    }
-}
-
 data "template_file" "download_repo" {
     template = "${file("templates/download-repo.sh")}"
     vars = {
@@ -75,15 +66,18 @@ data "template_file" "download_repo" {
       facility_name=var.electionguard_facility_name
       launch_code_seed=var.launch_code_seed
       shared_key=var.electionguard_shared_key
+      ssh_privkey=file(var.ssh_privkey_file)
+      election_manifest=file(var.election_manifest_file)
+      voter_data=file(var.voter_data_file)
     }
 }
 
-output "ci_deploy_rendered" {
-  value = "${data.template_file.ci_deploy.rendered}"
-}
+//output "ci_deploy_rendered" {
+//  value = "${data.template_file.ci_deploy.rendered}"
+//}
 
-output "reconstitute_files_rendered" {
-    value = "${data.template_file.reconstitute_files.rendered}"
+output "download_repo_templated" {
+    value = "${data.template_file.download_repo.rendered}"
 }
 
 data "template_cloudinit_config" "deploy_config" {
@@ -95,11 +89,6 @@ data "template_cloudinit_config" "deploy_config" {
     filename     = "init.cfg"
     content_type = "text/cloud-config"
     content      = "${data.template_file.ci_deploy.rendered}"
-  }
-
-  part {
-    content_type = "text/x-shellscript"
-    content      = "${data.template_file.reconstitute_files.rendered}"
   }
 
   part {

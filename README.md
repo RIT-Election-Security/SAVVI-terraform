@@ -7,4 +7,7 @@
 5. `terraform apply`
 6. SSH into the deploy box, run ansible
 
-examples of certain falues are found in `examples/`
+examples of certain files are found in `examples/`
+
+future work: fix encoding so that unicode can be passed through
+do strange base64 stuff on each end?
