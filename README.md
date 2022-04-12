@@ -6,3 +6,5 @@
 4. `terraform plan`
 5. `terraform apply`
 6. SSH into the deploy box, run ansible
+
+examples of certain falues are found in `examples/`

@@ -55,6 +55,35 @@ variable "ssh_privkey_file" {
     default = "id_savi"
 }
 
+variable "electionguard_facility_name" {
+    description = "facility name for ElectionGuard"
+    type = string
+    default = "test-facility"
+}
+
+variable "launch_code_seed" {
+    description = "seed for generating random launch code; integer parsed from string"
+    type = string
+    default = "1337"
+}
+
+variable "electionguard_shared_key" {
+    description = "shared Fernet key for ElectionGuard"
+    type = string
+}
+
+variable "election_manifest_file" {
+    description = "file path to the election manifest JSON"
+    type = string
+    default = "examples/election_manifest.json"
+}
+
+variable "voter_data_file" {
+    description = "file path to the voter data JSON"
+    type = string
+    default = "examples/voter_data.json"
+}
+
 variable "deploy_ci_vars" {
     description = "Variables to pass to cloudinit on the deploy server"
     type = map

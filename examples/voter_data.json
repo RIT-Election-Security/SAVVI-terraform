@@ -1,0 +1,20 @@
+[
+  {
+            "first": "Jim",
+            "last": "Smith",
+            "address": "12 Three Street",
+            "ballot_style": "ballot-style-01"
+  },
+  {
+    "first": "Alice",
+    "last": "Jones",
+    "address": "3 Four Ave",
+    "ballot_style": "ballot-style-01"
+  },
+  {
+    "first": "Jonathan",
+    "last": "Richman",
+    "address": "20 Three Street",
+    "ballot_style": "ballot-style-01"
+  }
+]
