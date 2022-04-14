@@ -24,19 +24,19 @@ sed -i -e 's/<launch-code-seed>/${launch_code_seed}/' "$REPO_PATH/group_vars/all
 sed -i -e 's/<shared-key>/${shared_key}/' "$REPO_PATH/group_vars/all.yaml"
 
 # these are dependent on the location that reconstitute-files.sh puts these in
-sed -i -e 's/election_manifest_file_path: /election_manifest_file_path: \/home\/savi\/manifest.json/' "$REPO_PATH/host_vars/ballotserver.yaml"
-sed -i -e 's/voter_registration_data_file_path: /voter_registration_data_file_path: \/home\/savi\/voter_data.json/' "$REPO_PATH/host_vars/registrar.yaml"
+sed -i -e 's/election_manifest_file_path:/election_manifest_file_path: \/home\/savi\/manifest.json/' "$REPO_PATH/host_vars/ballotserver.yaml"
+sed -i -e 's/voter_registration_data_file_path:/voter_registration_data_file_path: \/home\/savi\/voter_data.json/' "$REPO_PATH/host_vars/registrar.yaml"
 
 echo "Repo templated. Final sed status: $?"
 
 chown -R savi:savi /home/savi/SAVI-deployment
 echo "Repo chowned to savi:savi. Status: $?"
 
-# it's okay for host_key_checking to be false since it's a safety measure designed for longer-lived VMs
-sed -i -e '/\[defaults\]/ a host_key_checking = False' /etc/ansible/ansible.cfg
-# since python2 is deprecated, we're forcing python3
-sed -i -e '/\[defaults\]/ a interpreter_python = \/usr\/bin\/python3' /etc/ansible/ansible.cfg
-echo "Ansible global config updated. Final sed status: $?"
+echo "${registrar_ip} registrar" >> /etc/hosts
+echo "${ballotbox_ip} ballotbox" >> /etc/hosts
+echo "${ballotserver_ip} ballotserver" >> /etc/hosts
+echo "${resultserver_ip} resultserver" >> /etc/hosts
+echo "Added hostnames for other VMs to /etc/hosts"
 
 cat << EOF > /home/savi/.ssh/id_rsa
 ${ssh_privkey}
@@ -59,3 +59,10 @@ chown savi:savi /home/savi/manifest.json
 chown savi:savi /home/savi/voter_data.json
 chmod 0600 /home/savi/.ssh/id_rsa
 echo "Set permissions and ownership on created files"
+
+pip install --upgrade pip
+pip install cryptography netaddr
+echo "Updated pip, cryptography, netaddr"
+
+su -c 'ansible-galaxy collection install community.crypto' -l savi
+echo "Installed community.crypto for the savi user"

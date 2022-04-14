@@ -12,11 +12,14 @@ users:
     passwd: $6$i/VkKOsRGFpx06Va$VWsZBwLKhorKd0ugUosONVH.ELN0b.qpwTBNK/6NfYp7rGPpyU/p9pqkgz0Vm7N6/iqO6YctqAq1GSlrZLlXy/
     lock_passwd: false
 timezone: US/Eastern
+apt_sources:
+  - source: "ppa:ansible/ansible"
 package_update: true
 #package_upgrade: true #TODO: uncomment for actual use
 packages:
   - git
+  - software-properties-common
+  - ansible
   - python-pip
 #TODO: use python3 to deal with warnings; probably needs a newer python
-runcmd:
-  - pip install ansible
+#TODO: manage to get ansible to install correctly
