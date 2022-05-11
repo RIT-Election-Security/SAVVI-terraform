@@ -18,29 +18,17 @@ data "openstack_identity_project_v3" "savi_project" {
 
 // Openstack External Network
 data "openstack_networking_network_v2" "external_network" {
-    name = "RIT_WAN"
+    name = "external249"
 }
 
 data "openstack_images_image_v2" "image_ubuntu_18" {
-    name = "Ubuntu1804"
+    name = "Ubuntu-Bionic-1804"
 }
 
 // Flavor Data
 // these names are only a thing on RITSEC openstack
 data "openstack_compute_flavor_v2" "flavor_medium" {
-    name = "Medium general"
-}
-
-data "openstack_compute_flavor_v2" "flavor_medium_mem"{
-    name = "Medium memory"
-}
-
-data "openstack_compute_flavor_v2" "flavor_large" {
-    name = "Large general"
-}
-
-data "openstack_compute_flavor_v2" "flavor_large_mem" {
-    name = "Large memory"
+    name = "CylonHeavyRaider"
 }
 
 // create router

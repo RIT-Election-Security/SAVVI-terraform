@@ -1,2 +1,2 @@
-project_name = "SAVI"
-auth_url = "https://stack.ritsec.cloud:5000"
+project_name = "rpg4231"
+auth_url = "https://openstack.cyberrange.rit.edu:5000"
