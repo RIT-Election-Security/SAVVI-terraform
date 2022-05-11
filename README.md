@@ -5,9 +5,8 @@
 3. voter manifest or something [WIP]
 4. `terraform plan`
 5. `terraform apply`
-6. SSH into the deploy box (wait a bit to make sure everything's all set up)
-7. install ansible packages
-8. `ssh-keyscan -H registrar ballotbox ballotserver resultserver >> ~/.ssh/known_hosts`
+6. SSH into the deploy box (wait a bit to make sure everything's all set up; this may take several minutes)
+8. **but this doesn't work bc the hostnames are different from what ansible is connecting to**`ssh-keyscan -H registrar ballotbox ballotserver resultserver >> ~/.ssh/known_hosts`
 8. run ansible: `ansible-playbook -i inventory.yaml playbook.yaml -vvv`
 
 examples of certain files are found in `examples/`
