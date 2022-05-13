@@ -40,7 +40,7 @@ variable "auth_url" {
 variable "ip_addrs" {
     description = "IP addresses of each host in the topology"
     type = map
-    default = {"registrar"="192.168.0.1", "ballotbox"="192.168.0.2", "ballotserver"="192.168.0.3", "resultserver"="192.168.0.4", "deployserver"="192.168.0.5"}
+    default = {"registrar"="192.168.0.11", "ballotbox"="192.168.0.12", "ballotserver"="192.168.0.13", "resultserver"="192.168.0.14", "deployserver"="192.168.0.15"}
 }
 
 variable "ssh_pubkey_file" {

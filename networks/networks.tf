@@ -13,6 +13,7 @@ resource "openstack_networking_subnet_v2" "savi_subnet" {
         start = "192.168.0.200"
         end = "192.168.0.253"
     }
+    dns_nameservers = ["8.8.8.8"]
 }
 
 // this is a port
