@@ -4,37 +4,25 @@ variable "project_name" {
     type = string
 }
 
-/*
-variable "savi_router" {
-    description = "UUID of SAVI router"
+variable "region" {
+    description = "GCP region for the whole deployment"
     type = string
 }
 
-variable "external_network" {
-    description = "External Network UUID"
-}
-*/
-
-// Security Group Ports
-variable "all_ports" {
-    description = "Allowed ports to all instances (empty for all)"
-    type = map
-    default = {"ssh": 22}
-}
-
-variable "user_name" {
-    description = "Openstack username"
+variable "zone" {
+    description = "GCP zone for everything"
     type = string
 }
 
-variable "password" {
-    description = "Openstack password"
+variable "mtype" {
+    description = "GCP machine type for all instances"
     type = string
+    default = "e2-micro" //$7/month
 }
 
-variable "auth_url" {
-    description = "Openstack authentication url"
+variable "gcp_cred_file" {
     type = string
+    description = "path to the GCP credentials file"
 }
 
 variable "ip_addrs" {

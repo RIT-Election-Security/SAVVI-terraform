@@ -1,2 +1,3 @@
-project_name = "rpg4231"
-auth_url = "https://openstack.cyberrange.rit.edu:5000"
+project_name = "savi-350415"
+region = "northamerica-northeast1"
+zone = "northamerica-northeast1-b" // chosen at random

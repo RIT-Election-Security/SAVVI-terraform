@@ -1,26 +1,25 @@
-resource "openstack_compute_instance_v2" "savi_instance" {
-    depends_on = [ openstack_networking_subnet_v2.savi_subnet ]
+resource "google_compute_instance" "savi_instance"{
+    depends_on = [google_compute_subnetwork.savi_subnet]
     for_each = var.hosts
     name = "${each.key}"
-    flavor_id = each.value.flavor
-    security_groups = [
-        "default"//,
-        //data.openstack_networking_secgroup_v2.savi_secgroup.id
-    ]
+    machine_type = var.mtype
+    zone = var.zone
 
-    block_device {
-        uuid = each.value.image
-        volume_size = each.value.size
-        boot_index = 0
-        delete_on_termination = true
-        source_type = "image"
-        destination_type = "volume"
+    metadata = {
+        user-data = lookup(each.value, "user_data", null)
     }
 
-    network {
-        // since this is within the same module, we don't need to pull it in as `data`
-        uuid = openstack_networking_network_v2.savi_network.id
-        fixed_ip_v4 = each.value.ip
+    boot_disk {
+        initialize_params {
+            // current as of May 2022
+            image = "ubuntu-os-cloud/ubuntu-1804-bionic-v20220505"
+        }
     }
-    user_data = lookup(each.value, "user_data", null) // this is how we insert cloud_init
+
+    network_interface {
+        network = google_compute_network.savi_network.name
+        subnetwork = google_compute_subnetwork.savi_subnet.name
+        network_ip = each.value.ip
+    }
+    tags = ["ssh"]
 }
