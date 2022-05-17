@@ -40,8 +40,8 @@ output "download_repo_templated" {
 }
 
 data "template_cloudinit_config" "deploy_config" {
-  gzip          = true
-  base64_encode = true
+  gzip          = false // these can both be true on openstack, but GCP's images don't
+  base64_encode = false
 
   # Main cloud-config configuration file.
   part {

@@ -15,7 +15,7 @@ timezone: US/Eastern
 apt_sources:
   - source: "ppa:ansible/ansible"
 package_update: true
-#package_upgrade: true #TODO: uncomment for actual use
+#package_upgrade: true #TODO: uncomment for actual use on older images
 packages:
   - git
   - software-properties-common

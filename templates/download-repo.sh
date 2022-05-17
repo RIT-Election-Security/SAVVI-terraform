@@ -49,6 +49,7 @@ ${election_manifest}
 EOF
 echo "Created election manifest"
 
+# TODO: pass voter data in through some other GCP trickery (current setup won't scale)
 cat << EOF > /home/savi/voter_data.json
 ${voter_data}
 EOF

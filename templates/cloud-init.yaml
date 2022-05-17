@@ -16,3 +16,5 @@ packages:
   - python-pip
 runcmd:
   - "pip install --upgrade pip"
+  - "systemctl stop sshguard"
+  - "systemctl disable sshguard"
