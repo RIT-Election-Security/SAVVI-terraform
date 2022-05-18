@@ -21,5 +21,5 @@ resource "google_compute_instance" "savi_instance"{
         subnetwork = google_compute_subnetwork.savi_subnet.name
         network_ip = each.value.ip
     }
-    tags = ["ssh"]
+    tags = each.value.tags
 }

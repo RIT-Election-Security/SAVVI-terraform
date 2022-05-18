@@ -1,5 +1,7 @@
-resource "google_compute_firewall" "ssh" {
-    name = "allow-ssh"
+resource "google_compute_firewall" "ext-ssh" {
+    // allow SSH into the deploy host/jump box
+    // source IP ranges can be locked down even further
+    name = "allow-external-ssh"
     network = google_compute_network.savi_network.name
     allow {
         ports = ["22"]
@@ -7,7 +9,32 @@ resource "google_compute_firewall" "ssh" {
     }
     direction = "INGRESS"
     source_ranges = ["0.0.0.0/0"]
-    target_tags = ["ssh"]
+    target_tags = ["ext-ssh"]
+}
+
+resource "google_compute_firewall" "int-ssh" {
+    // only allow connection to internal boxes from the jump box/deploy host
+    name = "allow-internal-ssh"
+    network = google_compute_network.savi_network.name
+    allow {
+        ports = ["22"]
+        protocol = "tcp"
+    }
+    direction = "INGRESS"
+    source_tags = ["ext-ssh"]
+    target_tags = ["int-ssh"]
+}
+
+resource "google_compute_firewall" "https" {
+    name = "allow-https"
+    network = google_compute_network.savi_network.name
+    allow {
+        ports = ["443"]
+        protocol = "tcp"
+    }
+    direction = "INGRESS"
+    source_ranges = ["0.0.0.0/0"]
+    target_tags = ["https"]
 }
 
 resource "google_compute_firewall" "egress" {

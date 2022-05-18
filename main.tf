@@ -67,27 +67,27 @@ module "election_net" {
     "registrar": {
       "ip": var.ip_addrs.registrar
       "user_data": templatefile("templates/cloud-init.yaml", {ssh_pubkey=file(var.ssh_pubkey_file)})
-      //"secgroup":
+      "tags": ["int-ssh", "https"]
     }
     "ballotbox": {
       "ip": var.ip_addrs.ballotbox
       "user_data": templatefile("templates/cloud-init.yaml", {ssh_pubkey=file(var.ssh_pubkey_file)})
-      //"secgroup":
+      "tags": ["int-ssh", "https"]
     }
     "ballotserver": {
       "ip": var.ip_addrs.ballotserver
       "user_data": templatefile("templates/cloud-init.yaml", {ssh_pubkey=file(var.ssh_pubkey_file)})
-      //"secgroup":
+      "tags": ["int-ssh", "https"]
     }
     "resultserver": {
       "ip": var.ip_addrs.resultserver
       "user_data": templatefile("templates/cloud-init.yaml", {ssh_pubkey=file(var.ssh_pubkey_file)})
-      //"secgroup":
+      "tags": ["int-ssh", "https"]
     }
     "deployserver": {
       "ip": var.ip_addrs.deployserver
-      //"secgroup":
       "user_data": "${data.template_cloudinit_config.deploy_config.rendered}"
+      tags: ["ext-ssh"]
     }
   }
 }

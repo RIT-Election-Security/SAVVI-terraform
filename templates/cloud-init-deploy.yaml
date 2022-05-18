@@ -8,8 +8,6 @@ users:
     groups: [adm, sudo]
     sudo: ["ALL=(ALL) NOPASSWD:ALL"]
     shell: /bin/bash
-    #TODO: remove password for actual use
-    passwd: $6$i/VkKOsRGFpx06Va$VWsZBwLKhorKd0ugUosONVH.ELN0b.qpwTBNK/6NfYp7rGPpyU/p9pqkgz0Vm7N6/iqO6YctqAq1GSlrZLlXy/
     lock_passwd: false
 timezone: US/Eastern
 apt_sources:
@@ -21,5 +19,3 @@ packages:
   - software-properties-common
   - ansible
   - python-pip
-#TODO: use python3 to deal with warnings; probably needs a newer python
-#TODO: manage to get ansible to install correctly
