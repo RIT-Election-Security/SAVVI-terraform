@@ -31,16 +31,12 @@ data "template_file" "download_repo" {
     }
 }
 
-//output "ci_deploy_rendered" {
-//  value = "${data.template_file.ci_deploy.rendered}"
-//}
-
 output "download_repo_templated" {
     value = "${data.template_file.download_repo.rendered}"
 }
 
 data "template_cloudinit_config" "deploy_config" {
-  gzip          = false // these can both be true on openstack, but GCP's images don't
+  gzip          = false // these can both be true on openstack, but GCP's images don't support it
   base64_encode = false
 
   # Main cloud-config configuration file.
@@ -67,7 +63,7 @@ module "election_net" {
     "registrar": {
       "ip": var.ip_addrs.registrar
       "user_data": templatefile("templates/cloud-init.yaml", {ssh_pubkey=file(var.ssh_pubkey_file)})
-      "tags": ["int-ssh", "https"]
+      "tags": ["int-ssh", "https"] // GCP security rules are based on tags for traffic destination
     }
     "ballotbox": {
       "ip": var.ip_addrs.ballotbox

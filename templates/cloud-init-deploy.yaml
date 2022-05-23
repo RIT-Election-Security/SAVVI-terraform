@@ -19,3 +19,4 @@ packages:
   - software-properties-common
   - ansible
   - python-pip
+  - unzip
