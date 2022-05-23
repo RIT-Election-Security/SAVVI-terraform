@@ -69,11 +69,13 @@ su -c 'ansible-galaxy collection install community.crypto' -l savi
 echo "Installed community.crypto for the savi user"
 
 STIG_PATH="/home/savi/ubuntu1804STIG-ansible"
-#TODO: change STIG_PATH to put its role in SAVI-deployment
 wget https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_CAN_Ubuntu_18-04_LTS_V2R7_STIG_Ansible.zip -O /tmp/U_CAN_Ubuntu_18-04_LTS_V2R7_STIG_Ansible.zip
 unzip /tmp/U_CAN_Ubuntu_18-04_LTS_V2R7_STIG_Ansible.zip -d /tmp/STIG
-unzip /tmp/ubuntu1804STIG-ansible.zip -d $STIG_PATH
+unzip /tmp/STIG/ubuntu1804STIG-ansible.zip -d $STIG_PATH
 sed -i -e 's/ubuntu1804STIG_stigrule_219167_Manage: True/ubuntu1804STIG_stigrule_219167_Manage: False/' "$STIG_PATH/roles/ubuntu1804STIG/defaults/main.yml"
 sed -i -e 's/ubuntu1804STIG_stigrule_219170_Manage: True/ubuntu1804STIG_stigrule_219170_Manage: False/' "$STIG_PATH/roles/ubuntu1804STIG/defaults/main.yml"
 chown -R savi:savi /home/savi/ubuntu1804STIG-ansible
+mv "$STIG_PATH/roles/ubuntu1804STIG" "$REPO_PATH/roles/ubuntu1804STIG"
+cp "$REPO_PATH/inventory.yaml" "$REPO_PATH/inventory-STIG.yaml"
+sed -i -e 's/ansible_become: false/ansible_become: true' "$REPO_PATH/inventory-STIG.yaml"
 echo "Downloaded STIG ansible"

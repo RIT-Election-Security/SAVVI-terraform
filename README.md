@@ -10,9 +10,10 @@
 6. SSH into the deploy box (wait a bit to make sure everything's all set up; this may take several minutes)
 7. `sudo su savi` since google cloud ssh doesn't do that
 8. `ssh-keyscan -H 192.168.0.11 192.168.0.12 192.168.0.13 192.168.0.14 >> ~/.ssh/known_hosts`
-8. run ansible: `ansible-playbook -i inventory.yaml playbook.yaml -vvv`.
+8. run application ansible: `ansible-playbook -i inventory.yaml playbook.yaml -vvv`.
 If anything in Ansible fails after initial SSH connections work, try running it again.
 Sometimes, downloading packages or container images may take longer than the default timeouts.
+9. run security ansible: `ansible-playbook -i inventory-STIG.yaml playbook-STIG.yaml`
 
 examples of certain files are found in `examples/`
 

@@ -20,3 +20,4 @@ packages:
   - ansible
   - python-pip
   - unzip
+  - python-apt
