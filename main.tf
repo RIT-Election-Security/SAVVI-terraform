@@ -63,22 +63,22 @@ module "election_net" {
     "registrar": {
       "ip": var.ip_addrs.registrar
       "user_data": templatefile("templates/cloud-init.yaml", {ssh_pubkey=file(var.ssh_pubkey_file)})
-      "tags": ["int-ssh", "https"] // GCP security rules are based on tags for traffic destination
+      "tags": ["int-ssh", "ext-https"] // GCP security rules are based on tags for traffic destination
     }
     "ballotbox": {
       "ip": var.ip_addrs.ballotbox
       "user_data": templatefile("templates/cloud-init.yaml", {ssh_pubkey=file(var.ssh_pubkey_file)})
-      "tags": ["int-ssh", "https"]
+      "tags": ["int-ssh", "ext-https"]
     }
     "ballotserver": {
       "ip": var.ip_addrs.ballotserver
       "user_data": templatefile("templates/cloud-init.yaml", {ssh_pubkey=file(var.ssh_pubkey_file)})
-      "tags": ["int-ssh", "https"]
+      "tags": ["int-ssh", "int-https"]
     }
     "resultserver": {
       "ip": var.ip_addrs.resultserver
       "user_data": templatefile("templates/cloud-init.yaml", {ssh_pubkey=file(var.ssh_pubkey_file)})
-      "tags": ["int-ssh", "https"]
+      "tags": ["int-ssh", "ext-https"]
     }
     "deployserver": {
       "ip": var.ip_addrs.deployserver

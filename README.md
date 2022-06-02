@@ -9,6 +9,7 @@
 5. `terraform apply`
 6. SSH into the deploy box (wait a bit to make sure everything's all set up; this may take several minutes)
 7. `sudo su savi` since google cloud ssh doesn't do that
+7. `cd ~/SAVI-deployment` to enter the directory where the ansible repo is stored
 8. `ssh-keyscan -H 192.168.0.11 192.168.0.12 192.168.0.13 192.168.0.14 >> ~/.ssh/known_hosts`
 8. run application ansible: `ansible-playbook -i inventory.yaml playbook.yaml -vvv`.
 If anything in Ansible fails after initial SSH connections work, try running it again.
@@ -18,6 +19,7 @@ Sometimes, downloading packages or container images may take longer than the def
 examples of certain files are found in `examples/`
 
 future work: 
+* method for connecting to the servers from outside of the environment
 * fix encoding so that unicode can be passed through, perhaps by doing base64 stuff on each end?
 * restrict security rules further - only to websites required for package install
 * use GCP features to make voter data scale better since gzipped cloudinit isn't supported
@@ -28,6 +30,7 @@ future work:
 * SSH to other instances by hostname
 * by the time this is actually used by someone, ansible or its dependencies may have deprecated python2, which this uses for deployment
 * each instance has a `nginx` reverse proxy and a python webapp (using [Quart](https://pgjones.gitlab.io/quart/), except for the `ballotserver`, which uses [FastAPI](https://fastapi.tiangolo.com/))
+* `ballotserver` can intentionally only be accessed from the other webservers.  to access it externally in a test deployment, change its tags in `main.tf` to `ext-https` rather than `int-https`
 
 # How it all fits together
 The terraform rules in this repository create a set of virtual machine instances in Google Cloud Platform Compute Engine,
@@ -47,3 +50,4 @@ For a full bibliography, see the paper
 * SSL best practices: https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices
 * Nginx config for SSL best practices: https://syslink.pl/cipherlist/
 * NIST hardening checklist: https://ncp.nist.gov/checklist/989
+* https://www.cisecurity.org/cis-benchmarks/

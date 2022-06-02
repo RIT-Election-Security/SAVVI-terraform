@@ -25,8 +25,8 @@ resource "google_compute_firewall" "int-ssh" {
     target_tags = ["int-ssh"]
 }
 
-resource "google_compute_firewall" "https" {
-    name = "allow-https"
+resource "google_compute_firewall" "ext-https" {
+    name = "allow-external-https"
     network = google_compute_network.savi_network.name
     allow {
         ports = ["443"]
@@ -34,7 +34,19 @@ resource "google_compute_firewall" "https" {
     }
     direction = "INGRESS"
     source_ranges = ["0.0.0.0/0"]
-    target_tags = ["https"]
+    target_tags = ["ext-https"]
+}
+
+resource "google_compute_firewall" "int-https" {
+    name = "allow-internal-https"
+    network = google_compute_network.savi_network.name
+    allow {
+        ports = ["443"]
+        protocol = "tcp"
+    }
+    direction = "INGRESS"
+    source_tags = ["ext-https"]
+    target_tags = ["int-https"]
 }
 
 resource "google_compute_firewall" "egress" {
