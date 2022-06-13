@@ -77,5 +77,5 @@ sed -i -e 's/ubuntu1804STIG_stigrule_219170_Manage: True/ubuntu1804STIG_stigrule
 chown -R savi:savi /home/savi/ubuntu1804STIG-ansible
 mv "$STIG_PATH/roles/ubuntu1804STIG" "$REPO_PATH/roles/ubuntu1804STIG"
 cp "$REPO_PATH/inventory.yaml" "$REPO_PATH/inventory-STIG.yaml"
-sed -i -e 's/ansible_become: false/ansible_become: true' "$REPO_PATH/inventory-STIG.yaml"
+sed -i -e 's/ansible_become: false/ansible_become: true/' "$REPO_PATH/inventory-STIG.yaml"
 echo "Downloaded STIG ansible"
